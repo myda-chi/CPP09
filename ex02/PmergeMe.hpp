@@ -5,38 +5,31 @@
 #include <vector>
 #include <deque>
 #include <string>
-#include <sstream>
-#include <algorithm>
+#include <cstdlib>
 #include <sys/time.h>
+#include <algorithm>
 #include <iomanip>
+#include <stdexcept>
+#include <sstream>
 
-class PmergeMe
-{
+class PmergeMe {
 private:
     std::vector<int> _vec;
-    std::deque<int> _deq;
-    double _timeVec;
-    double _timeDeq;
-
-    void fordJohnsonSortVector(std::vector<int>& arr);
-    void insertLosersJacobsthalVector(std::vector<int>& mainChain,
-                                      const std::vector<int>& losers) const;
-
-    void fordJohnsonSortDeque(std::deque<int>& arr);
-    void insertLosersJacobsthalDeque(std::deque<int>& mainChain,
-                                     const std::deque<int>& losers) const;
-
-    std::vector<int> generateJacobsthalOrder(int n) const;
-    double getTimeInMicroseconds() const;
+    std::deque<int>  _deq;
+    
+    std::vector<int> generateJacobsthal(size_t max_val);
+    void mergeInsertSortVec(std::vector<int>& arr);
+    
+    std::deque<int>  generateJacobsthalDeq(size_t max_val);
+    void mergeInsertSortDeq(std::deque<int>& arr);
 
 public:
     PmergeMe();
-    ~PmergeMe();
     PmergeMe(const PmergeMe& other);
     PmergeMe& operator=(const PmergeMe& other);
+    ~PmergeMe();
 
-    bool parseArguments(int argc, char** argv);
-    void sortAndDisplay();
+    void process(int argc, char** argv);
 };
 
 #endif

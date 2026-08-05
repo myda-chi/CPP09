@@ -1,12 +1,13 @@
 #include "PmergeMe.hpp"
 
-int main(int argc, char** argv)
-{
-    PmergeMe sorter;
-
-    if (!sorter.parseArguments(argc, argv))
+int main(int argc, char **argv) {
+    if (argc < 2) {
+        std::cerr << "Error\n";
         return 1;
-
-    sorter.sortAndDisplay();
+    }
+    
+    PmergeMe sorter;
+    sorter.process(argc, argv);
+    
     return 0;
 }

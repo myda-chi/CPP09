@@ -171,7 +171,7 @@ bool BitcoinExchange::processInputFile(const std::string &inputFile) const
 	}
 
 	std::string line;
-	bool firstLine = true;
+	std::getline(ifs, line);
 	while (std::getline(ifs, line))
 	{
 		line = trim(line); // handles CRLF-terminated input files too
