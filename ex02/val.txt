@@ -1,0 +1,109 @@
+PmergeMe evaluation-style explanation
+===================================
+
+This file is a second explanation, written in a more exam-style and speaking-friendly way. It does not replace the first explanation file.
+
+1) What is the purpose of the program?
+-------------------------------------
+The program reads a list of positive integers from the command line, stores them in two different containers, sorts them using the Ford-Johnson merge insertion sort, and then prints the sorted result and the time taken by each container.
+
+2) Why do we use std::vector and std::deque?
+--------------------------------------------
+The subject asks us to compare the same algorithm on two different containers. So the program stores the same values in:
+- _vec for std::vector
+- _deq for std::deque
+
+This allows us to compare how each container behaves during the same sorting process.
+
+3) Why do we need these variables in the header file?
+------------------------------------------------------
+- _vec: stores the numbers for the vector-based implementation.
+- _deq: stores the numbers for the deque-based implementation.
+- _timeVec: stores the measured time for the vector sort.
+- _timeDeq: stores the measured time for the deque sort.
+
+These variables are necessary because the program must keep two copies of the same input and measure the time of both sorting processes separately.
+
+4) Why do we have private methods in the header file?
+------------------------------------------------------
+The private methods are the internal implementation details of the algorithm.
+They are hidden from the outside because the user only needs to call parseArguments and sortAndDisplay.
+
+The most important ones are:
+- fordJohnsonSortVector: performs the algorithm on a vector
+- fordJohnsonSortDeque: performs the algorithm on a deque
+- generateJacobsthalOrder: creates the insertion order for the smaller values
+- getTimeInMicroseconds: measures time
+
+5) What is the main idea of the sorting algorithm?
+---------------------------------------------------
+The algorithm is based on Ford-Johnson merge insertion sort.
+The main steps are:
+1. Pair the elements.
+2. Keep the larger value as the winner and the smaller one as the loser.
+3. Recursively sort the winners.
+4. Insert the losers back into the main chain using the Jacobsthal order.
+5. If there is one element left because the number of values is odd, insert it as the straggler.
+
+6) Why do we use the Jacobsthal order?
+---------------------------------------
+The Jacobsthal order tells us in which order the losers should be inserted into the sorted main chain.
+This makes the insertions more balanced and improves efficiency compared to inserting the losers in a simple order.
+
+7) What does parseArguments do?
+--------------------------------
+This function reads the command-line arguments and validates them.
+It checks that:
+- at least one argument exists
+- each argument is a positive integer
+- the number is within the allowed range
+
+If something is invalid, the program prints Error and stops.
+
+8) What does sortAndDisplay do?
+--------------------------------
+This function is the main workflow of the program.
+It:
+1. prints the original sequence
+2. sorts the values using std::vector
+3. sorts the values using std::deque
+4. checks that the results are sorted
+5. prints the final sorted result
+6. prints the elapsed time for each version
+
+9) Strong example
+-----------------
+Suppose the input is:
+3 5 9 7 1
+
+The program processes it like this:
+- It stores the values in both _vec and _deq.
+- It pairs them as:
+  - (3, 5) -> winner 5, loser 3
+  - (9, 7) -> winner 9, loser 7
+  - remaining value: 1
+- It sorts the winners: [5, 9]
+- It inserts the losers in Jacobsthal order: [3, 7]
+- It inserts the straggler: 1
+- The final sorted sequence becomes:
+  [1, 3, 5, 7, 9]
+
+10) Simple flow of the full program
+----------------------------------
+The flow is:
+1. main creates a PmergeMe object.
+2. parseArguments validates the input.
+3. sortAndDisplay starts.
+4. The program prints the initial values.
+5. It runs the vector sort.
+6. It runs the deque sort.
+7. It verifies that both results are sorted.
+8. It prints the final sorted output and timing values.
+
+11) Short oral explanation you can say
+-------------------------------------
+I implemented the Ford-Johnson merge insertion sort for both std::vector and std::deque. First, I parse and validate the input values. Then I pair the elements into winners and losers, recursively sort the winners, and insert the losers back into the main chain using the Jacobsthal order. If there is an odd element left, I insert it as a straggler. Finally, I print the sorted result and the time taken by each container.
+
+12) Summary
+-----------
+The important idea is that the program does not just sort numbers. It shows how a special insertion-based algorithm works step by step, and it compares its performance on two different standard containers.

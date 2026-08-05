@@ -1,0 +1,16 @@
+PmergeMe defence-style explanation
+=================================
+
+For this exercise, I implemented the Ford-Johnson merge insertion sort for two different containers: std::vector and std::deque. The goal is to sort the input values and compare the behavior of both containers while using the same algorithm.
+
+I chose std::vector and std::deque because the subject explicitly asks for two different standard containers. The algorithm is the same in both cases, but the containers behave differently internally, which makes the comparison meaningful. The vector version is used for one implementation and the deque version is used for the other.
+
+The program first parses the input arguments and validates them. Each value must be a positive integer, and if any argument is invalid, the program prints an error and stops. Once the values are collected, the program creates pairs of elements. In each pair, the larger value becomes the winner and the smaller value becomes the loser.
+
+Then I recursively sort the winners, because they form the base of the main chain. After that, I insert the losers back into the chain using the Jacobsthal order. This is an important part of the algorithm because it makes the insertions more balanced and more efficient than inserting them in a simple order. If there is one value left because the number of elements is odd, I insert it as a straggler.
+
+Finally, I print the original sequence, the sorted sequence, and the time taken by each container. The program also checks that both results are sorted before printing them.
+
+A simple example is the input 3 5 9 7 1. The pairs become 3 with 5, 9 with 7, and 1 remains as the straggler. The winners are sorted first, then the losers are inserted back, and finally the straggler is placed in the correct position. The final result is 1 3 5 7 9.
+
+So the core idea of the program is to build the sorted sequence step by step: first sort the winners, then insert the losers using the Jacobsthal order, and finally place any remaining element correctly.
