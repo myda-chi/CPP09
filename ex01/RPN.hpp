@@ -2,12 +2,12 @@
 #define RPN_HPP
 
 #include <iostream>
-#include <list>
+#include <stack>
 #include <sstream>
 
 class RPN {
 private:
-    std::list<int> _stack;
+    std::stack<int> _stack;
  
     int stringToInt(const std::string& str) const;
     bool isOperator(const std::string& token) const;

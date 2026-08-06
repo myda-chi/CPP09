@@ -80,6 +80,8 @@ bool BitcoinExchange::isValidDate(const std::string &date)
 	int month = std::atoi(date.substr(5, 2).c_str());
 	int day = std::atoi(date.substr(8, 2).c_str());
 
+	if (year < 2009 || year > 9999)
+		return (false);
 	if (month < 1 || month > 12)
 		return (false);
 	if (day < 1)
@@ -177,13 +179,6 @@ bool BitcoinExchange::processInputFile(const std::string &inputFile) const
 		line = trim(line); // handles CRLF-terminated input files too
 		if (line.empty())
 			continue;
-		if (firstLine)
-		{
-			firstLine = false;
-			if (line == "date | value")
-				continue;
-		}
-
 		size_t pos = line.find('|');
 		if (pos == std::string::npos || line.find('|', pos + 1) != std::string::npos)
 		{

@@ -1,4 +1,6 @@
 #include "RPN.hpp"
+#include <cstdlib>
+#include <stdexcept>
 
 RPN::RPN()
 {
@@ -16,10 +18,20 @@ bool RPN::isOperator(const std::string& token) const
 
 int RPN::stringToInt(const std::string& str) const 
 {
-    std::istringstream iss(str);
-    int value;
-    iss >> value;
-    return value;
+    char* endptr;
+    long value = std::strtol(str.c_str(), &endptr, 10);
+    
+    if (*endptr != '\0' || str.empty()) 
+    {
+        throw std::runtime_error("Invalid token: " + str);
+    }
+    
+    if (value >= 10 || value <= -10)
+    {
+        throw std::runtime_error("Number must be less than 10");
+    }
+    
+    return static_cast<int>(value);
 }
 
 int RPN::performOperation(const std::string& operation, int operand1, int operand2) const 
@@ -51,17 +63,17 @@ int RPN::evaluate(const std::string& expression)
             {
                 throw std::runtime_error("Insufficient operands for operation: " + token);
             }
-            int operand2 = _stack.back(); _stack.pop_back();
-            int operand1 = _stack.back(); _stack.pop_back();
+            int operand2 = _stack.top(); _stack.pop();
+            int operand1 = _stack.top(); _stack.pop();
             int result = performOperation(token, operand1, operand2);
-            _stack.push_back(result);
+            _stack.push(result);
         } 
         else 
         {
             try 
             {
                 int value = stringToInt(token);
-                _stack.push_back(value);
+                _stack.push(value);
             } 
             catch (const std::exception&) 
             {
@@ -75,5 +87,5 @@ int RPN::evaluate(const std::string& expression)
         throw std::runtime_error("Invalid RPN expression");
     }
 
-    return _stack.back();
+    return _stack.top();
 }
